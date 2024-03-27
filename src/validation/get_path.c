@@ -10,7 +10,7 @@ char    *get_path(char *command_name, char **env)
 	while (env[i] && !ft_strstr(env[i], "PATH="))
 		i++;
 	if (!env[i])
-		ft_error("Can't find path to bin files\n");
+		ft_error("Can't find path to bin files\n", 17);
 	bin_paths = ft_split(env[i] + 5, ':');
 	command_path = check_command_access(command_name, bin_paths);
 	free_split(bin_paths);

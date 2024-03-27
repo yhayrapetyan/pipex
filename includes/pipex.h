@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>//delete
 # include <stdlib.h>
+#include <sys/wait.h>
 
 # define RED "\033[1;31m"
 # define YELLOW "\033[1;33m"
@@ -26,7 +27,7 @@
 // HELPERS
 int     ft_strlen(char *str);
 void	free_split(char **str);
-void	ft_error(char *message);
+void	ft_error(char *message, int status);
 char	**ft_split(char const *s, char c);
 char	*ft_strstr(char *str, char *to_find);
 char	*ft_strjoin(char *s1, char *s2);

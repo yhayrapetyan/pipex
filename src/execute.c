@@ -12,12 +12,12 @@ void    execute(char *command, char **env)
     {
         free_split(command_name);
         printf("command_name = %s\n", command_name[0]);
-        ft_error("Can't find command!\n");
+        ft_error("Can't find command!\n", 17);
     }
     if (execve(command_path, command_name, env) == -1)
     {
         free_split(command_name);
         free(command_path);
-        ft_error("Can't execute the command\n");
+        ft_error("Can't execute the command\n", 17);
     }
 }
