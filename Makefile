@@ -1,13 +1,30 @@
-SRC =	pipex.c
+SRC =	pipex.c \
+		execute.c
+
+HELPERS_SRC = 	ft_strjoin.c \
+				ft_strstr.c \
+				ft_error.c \
+				ft_strlen.c \
+				ft_split.c
+
+VALIDATION_SRC = 	check_command_access.c \
+					get_path.c
 
 HEADERS = 	pipex.h
 
 SRC_DIR = ./src/
+HELPERS_DIR = ./src/helpers/
+VALIDATION_DIR = ./src/validation/
 INC = ./includes/
 
 HEADERS := $(addprefix $(INC), $(HEADERS))
 SRC := $(addprefix $(SRC_DIR), $(SRC))
+VALIDATION_SRC := $(addprefix $(VALIDATION_DIR), $(VALIDATION_SRC))
+HELPERS_SRC := $(addprefix $(HELPERS_DIR), $(HELPERS_SRC))
 OBJS = $(SRC:.c=.o)
+
+SRC += $(VALIDATION_SRC)
+SRC += $(HELPERS_SRC)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -59,7 +76,7 @@ print_info: print_name
 	@printf "%b" "$(BLUE)Uname: $(GREEN)$(UNAME)\n"
 	@printf "%b" "$(BLUE)C Flags: $(GREEN)$(CFLAGS)\n"
 	@printf "%b" "$(BLUE)Lib Flags: $(GREEN)$(LIB_FLAGS)\n"
-	@printf "%b" "$(BLUE)Src Count: $(GREEN)$(SRC_COUNT_TOT)\n"
+	@printf "%b" "$(BLUE)Src Count: $(GREEN)$(SRC_COUNT_TOT)$(NO_COLOR)\n"
 
 
 print_name:
@@ -67,10 +84,10 @@ print_name:
 	@echo "     ____     ______   ____      _____      __   __      "
 	@echo "    /\  _\`\\  /\__  _\ /\  _ \`\\  /\ ____\\   /\ \ /\ \     "
 	@echo "    \ \ \L\ \\/_/\ \/ \ \ \L\ \  \\ \\----/   \ \\\/\'/\'    "
-	@echo "     \ \ ,__/   \ \ \  \ \ ,__/  \ \===    \\/ > <      "
+	@echo "     \ \ ,__/   \ \ \  \ \ ,__/  \ \===     \\/ > <      "
 	@echo "      \ \ \/     \_\ \__\ \ \/    \ \\_____    \/'/\`\\   "
 	@echo "       \ \_\     /\_____\\ \_\      \ \\____\\  /\_\\  \_\ "
 	@echo "        \/_/     \/_____/ \/_/      \/___ /  \/_/ \/_/ "
-	@echo "(-): -"
+	@echo "\n"
 
 .PHONY: all clean fclean re sanitize bonus print_name print_info

@@ -16,5 +16,24 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>//delete
+# include <stdlib.h>
 
+# define RED "\033[1;31m"
+# define YELLOW "\033[1;33m"
+# define RESET_COLOR "\033[0m"
+# define GREEN "\033[1;32m"
+
+// HELPERS
+int     ft_strlen(char *str);
+void	free_split(char **str);
+void	ft_error(char *message);
+char	**ft_split(char const *s, char c);
+char	*ft_strstr(char *str, char *to_find);
+char	*ft_strjoin(char *s1, char *s2);
+
+void    execute(char *command, char **env);
+
+// VALIDATION
+char    *get_path(char *command_name, char **env);
+char    *check_command_access(char *cmd_name, char **paths);
 #endif
