@@ -5,6 +5,8 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_strstr.c \
 				ft_error.c \
 				ft_strlen.c \
+				ft_strlcpy.c \
+				ft_strtrim.c \
 				ft_split.c
 
 VALIDATION_SRC = 	check_command_access.c \
