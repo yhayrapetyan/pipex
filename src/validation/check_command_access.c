@@ -7,7 +7,6 @@ char    *check_command_access(char *cmd_name, char **bin_paths)
 	int		i;
 
 	i = 0;
-	printf("name = %s", cmd_name);
 	while (bin_paths[i])
 	{
 		temp = ft_strjoin(bin_paths[i], "/");

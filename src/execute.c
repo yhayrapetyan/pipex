@@ -7,12 +7,10 @@ void    execute(char *command, char **env)
 
     command_name = ft_split(command, ' ');
     command_path = get_path(command_name[0], env);
-
     if (!command_path)
     {
         free_split(command_name);
-        printf("command_name = %s\n", command_name[0]);
-        ft_error("Can't find command!\n", 17);
+        ft_error("Command not found!\n", 127);
     }
     if (execve(command_path, command_name, env) == -1)
     {
