@@ -28,9 +28,6 @@ void	second_child_process(char **av, char **env, int *pipe)
 	if (close(pipe[0]) == -1)
 		ft_error("Can't close the pipe in child\n", 17);
 	execute(av[3], env);
-	//idk 
-	// if (close(descriptor) == -1)
-	// 	ft_error("Can't close the file\n");
 }
 
 void	first_child_process(char **av, char **env, int *pipe)
