@@ -68,12 +68,11 @@ void	start_pipex(char **av, char **env)
 	if (pid1 == 0 && pid2 != 0)
 		first_child_process(av, env, fd);
 	if (pid1 != 0 && pid2 == 0)
-		// second_child_process(av, env, fd);
+		second_child_process(av, env, fd);
 	if (close(fd[0]) == -1 || close(fd[1]) == -1)
 		ft_error("Can't close the pipe\n", 17);
 	if (pid1 != 0 && pid2 != 0)
 	{
-		printf("Waiting !!!!!\n");
 		if (waitpid(pid2, &status, 0) == -1)
 			ft_error("Waitpid Error!\n", 17);
 		if (status != 0)
@@ -83,7 +82,7 @@ void	start_pipex(char **av, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	if (ac > 4)
+	if (ac > 4 && env)
 		start_pipex(av, env);
 	else
 		ft_error("Invalid number of arguments\n", 127);

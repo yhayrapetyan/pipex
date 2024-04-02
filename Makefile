@@ -1,4 +1,5 @@
 SRC =	pipex.c \
+		get_name.c \
 		execute.c
 
 HELPERS_SRC = 	ft_strjoin.c \
@@ -6,6 +7,7 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_error.c \
 				ft_strncmp.c \
 				ft_strchr.c \
+				ft_strdup.c \
 				ft_strlen.c \
 				ft_strlcpy.c \
 				ft_strtrim.c \

@@ -32,11 +32,13 @@ char	**ft_split(char const *s, char c);
 char	*ft_strstr(char *str, char *to_find);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int		ft_strchr(char *s, int c);
+char	*ft_strdup(const char *s1);
 char	*ft_strtrim(char *s1, char *set);
 int	    ft_strlcpy(char *dst, const char *src, int dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 
-void    execute(char *command, char **env);
+void	execute(char *command, char **env);
+char	**get_name(char *command);
 
 // VALIDATION
 char    *get_path(char *command_name, char **env);
