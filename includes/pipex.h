@@ -13,6 +13,10 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>//delete
@@ -43,4 +47,17 @@ char	**get_name(char *command);
 // VALIDATION
 char    *get_path(char *command_name, char **env);
 char    *check_command_access(char *cmd_name, char **paths);
+
+// BONUS
+int		get_descriptor(char *file_name, char c);
+void	in_processes(char *command, char **env);
+pid_t	out_process(char *command, char **env, int file_out);
+void	here_doc(char *limiter, int argc);
+
+// GNL
+char	*get_next_line(int fd);
+char	*gnl_strjoin(char *s1, char *s2);
+char	*get_line(char *str);
+char	*get_new_left_str(char *str);
+
 #endif

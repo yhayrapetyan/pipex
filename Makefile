@@ -1,6 +1,4 @@
-SRC =	pipex.c \
-		get_name.c \
-		execute.c
+SRC =			pipex.c \
 
 HELPERS_SRC = 	ft_strjoin.c \
 				ft_strstr.c \
@@ -11,7 +9,18 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_strlen.c \
 				ft_strlcpy.c \
 				ft_strtrim.c \
+				get_name.c \
+				execute.c \
 				ft_split.c
+
+BONUS_SRC =		get_descriptor.c \
+                in_processes.c \
+                out_process.c \
+                pipex_bonus.c \
+                here_dock.c
+
+GNL_SRC =		get_next_line_utils.c \
+				get_next_line.c
 
 VALIDATION_SRC = 	check_command_access.c \
 					get_path.c
@@ -21,20 +30,30 @@ HEADERS = 	pipex.h
 SRC_DIR = ./src/
 HELPERS_DIR = ./src/helpers/
 VALIDATION_DIR = ./src/validation/
+BONUS_DIR = ./src/bonus/
+GNL_DIR = ./src/get_next_line/
 INC = ./includes/
 
 HEADERS := $(addprefix $(INC), $(HEADERS))
 SRC := $(addprefix $(SRC_DIR), $(SRC))
 VALIDATION_SRC := $(addprefix $(VALIDATION_DIR), $(VALIDATION_SRC))
 HELPERS_SRC := $(addprefix $(HELPERS_DIR), $(HELPERS_SRC))
+BONUS_SRC := $(addprefix $(BONUS_DIR), $(BONUS_SRC))
+GNL_SRC := $(addprefix $(GNL_DIR), $(GNL_SRC))
 OBJS = $(SRC:.c=.o)
+BONUS_OBJS = $(BONUS_SRC:.c=.o)
 
 SRC += $(VALIDATION_SRC)
 SRC += $(HELPERS_SRC)
 
+BONUS_SRC += $(VALIDATION_SRC)
+BONUS_SRC += $(HELPERS_SRC)
+BONUS_SRC += $(GNL_SRC)
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
+BONUS_NAME = pipex_bonus
 RM = rm -f
 
 BLUE   = \033[0;34m
@@ -51,11 +70,18 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: print_info $(NAME)
 
+bonus: print_info  $(BONUS_NAME)
+
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME)
 	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
 
+$(BONUS_NAME): $(BONUS_OBJS)
+	@$(CC) $(BONUS_OBJS) -o $(BONUS_NAME)
+	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
+
 $(OBJS): $(HEADERS) Makefile
+$(BONUS_OBJS): $(HEADERS) Makefile
 
 sanitize: $(OBJS)
 	@cc $(OBJS) -fsanitize=address  -o $(NAME)
@@ -66,11 +92,11 @@ sanitize: $(OBJS)
 	@$(CC) $(CFLAGS) -I $(INC) -c  $< -o $(<:.c=.o)
 
 clean: print_name
-	@$(RM) $(OBJS)
+	@$(RM) $(OBJS) $(BONUS_OBJS)
 	@printf "%b" "$(BLUE)$@: $(GREEN)[✓]\n"
 
 fclean: clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) $(BONUS_NAME)
 	@printf "%b" "$(BLUE)$@: $(GREEN)[✓]\n"
 
 re: fclean all

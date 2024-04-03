@@ -18,7 +18,7 @@ void	second_child_process(char **av, char **env, int *pipe)
 
 	descriptor = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (descriptor == -1)
-		ft_error("Can't open the file in second\n", 17);
+		ft_error("Can't open the file in second child\n", 17);
 	if (close(pipe[1]) == -1)
 		ft_error("Can't close the pipe in child\n", 17);
 	if (dup2(pipe[0], STDIN_FILENO) == -1)

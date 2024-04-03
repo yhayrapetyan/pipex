@@ -31,8 +31,10 @@ static char	**get_result(char *command_name, char **arr)
 	while (arr[i] && ft_strchr(arr[i], '\\'))
 		i++;
 	result = (char **)malloc(sizeof(char *) * (len - i + 1));
+	if(!result)
+		ft_error("Allocation Error\n", 17);
 	result[len - i] = NULL;
-	while (len-- - i > 0)
+	while (len-- - i > 1)
 		result[len - i] = ft_strdup(arr[len]);
 	i = 0;
 	while (command_name[i])
