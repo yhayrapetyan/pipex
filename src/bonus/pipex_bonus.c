@@ -18,9 +18,8 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 	{
 		in_file = get_descriptor(av[1], 'I');
 		out_file = get_descriptor(av[ac - 1], 'O');
-		if (dup2(in_file, STDIN_FILENO) == -1) {
+		if (dup2(in_file, STDIN_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
-		}
 	}
 	while (i < ac - 2)
 	{

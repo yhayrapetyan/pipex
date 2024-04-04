@@ -39,23 +39,7 @@ static int	words_count(char const *s, char sep)
 	return (count_words);
 }
 
-static char	*ft_strndup(const char *str, int n)
-{
-	int		i;
-	char	*copy;
 
-	copy = (char *)malloc(sizeof(char) * (n + 1));
-	if (copy == NULL)
-		return (NULL);
-	i = 0;
-	while (i < n)
-	{
-		copy[i] = str[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
-}
 
 static int	fill(char **res, char const *s, char c, int nb_words)
 {

@@ -2,8 +2,8 @@
 
 pid_t	out_process(char *command, char **env, int file_out)
 {
-	pid_t   pid;
-	int     fd[2];
+	pid_t	pid;
+	int		fd[2];
 
 	if (pipe(fd) == -1)
 		ft_error("Can't create the pipe\n", 17);

@@ -34,7 +34,7 @@ void	first_child_process(char **av, char **env, int *pipe)
 {
 	int	descriptor;
 
-	descriptor = open(av[1], O_RDONLY, 0777);
+	descriptor = open(av[1], O_RDONLY);
 	if (descriptor == -1)
 		ft_error("Can't open the file in first child\n", 17);
 	if (close(pipe[0]) == -1)
@@ -70,16 +70,27 @@ void	start_pipex(char **av, char **env)
 		ft_error("Can't close the pipe\n", 17);
 	if (pid1 != 0 && pid2 != 0)
 	{
+		if (waitpid(pid1, NULL, 0) == -1)
+			ft_error("Waitpid Error!\n", 16);
 		if (waitpid(pid2, &status, 0) == -1)
 			ft_error("Waitpid Error!\n", 17);
 		if (status != 0)
 			exit(WEXITSTATUS(status));
+			// exit(1);
 	}
 }
 
 int	main(int ac, char **av, char **env)
 {
-	if (ac > 4 && env)
+	// int	i = 0;
+	// (void)env;
+	// (void)ac;
+	// while (av[1][i])
+	// {
+	// 	printf("%c\n", av[1][i]);
+	// 	i++;
+	// }
+	if (ac == 5 && env)
 		start_pipex(av, env);
 	else
 		ft_error("Invalid number of arguments\n", 127);

@@ -30,6 +30,7 @@
 
 // HELPERS
 int     ft_strlen(char *str);
+char	*ft_strndup(const char *str, int n);
 void	free_split(char **str);
 void	ft_error(char *message, int status);
 char	**ft_split(char const *s, char c);

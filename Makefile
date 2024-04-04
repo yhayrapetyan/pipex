@@ -9,6 +9,7 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_strlen.c \
 				ft_strlcpy.c \
 				ft_strtrim.c \
+				ft_strndup.c \
 				get_name.c \
 				execute.c \
 				ft_split.c
@@ -70,14 +71,17 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: print_info $(NAME)
 
-bonus: print_info  $(BONUS_NAME)
+# bonus: delete_old_pipex print_info  $(BONUS_NAME)
+
+delete_old_pipex:
+	@$(RM) $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME)
 	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
 
 $(BONUS_NAME): $(BONUS_OBJS)
-	@$(CC) $(BONUS_OBJS) -o $(BONUS_NAME)
+	@$(CC) $(BONUS_OBJS) -o $(NAME)
 	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
 
 $(OBJS): $(HEADERS) Makefile

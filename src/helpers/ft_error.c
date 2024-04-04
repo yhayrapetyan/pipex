@@ -1,5 +1,7 @@
 #include "pipex.h"
 
+#include "errno.h"
+
 void	ft_error(char *message, int status)
 {
 	write(2, RED, 7);
