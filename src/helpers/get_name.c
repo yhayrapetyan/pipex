@@ -146,26 +146,21 @@ char	**get_name(char *command)
 	single_quote = 0;
 	double_quote = 0;
 	result = NULL;
-	// fprintf(stderr, "🔵\n");
 	while (command[i])
 	{
-		// fprintf(stderr, "❗️cmd[%d] = %c\n", i, command[i]);
 		if (command[i] == '"')
 			double_quote++;
 		if (command[i] == '\'')
 			single_quote++;
 		i++;
 	}
-	// fprintf(stderr, "s = %d, d = %d\n", single_quote, double_quote);
 	i = 0;
 	if (single_quote > 1 || double_quote > 1)
 	{
-		// fprintf(stderr, "✅\n");
 		quotes = parse_quotes(command);
 		back_temp = quotes;
 		quotes = remove_back_slash(quotes);
 		free(back_temp);
-		// fprintf(stderr, "quotes = %s\n", quotes);
 		while (command[i] && ft_strlen(command) > 1)
 		{
 			if (is_quote(command[i]) && command[i - 1] == ' ')
@@ -176,7 +171,6 @@ char	**get_name(char *command)
 			i++;
 		}
 		new_command = ft_strndup(command, i - 1);
-		// fprintf(stderr, "command after = %s\n", new_command);
 		if (!new_command)
 			ft_error("Alocation Error\n", 17);
 		temp = ft_split(new_command, ' ');
@@ -188,37 +182,18 @@ char	**get_name(char *command)
 		i = 0;
 		while (result[i])
 			i++;
-		// while (quote_temp[j])
-		// {
-		// 	// fprintf(stderr, "quote_temp[%d] = %s\n", j, quote_temp[j]);
-		// 	j++;
-		// }
-		// fprintf(stderr, "i = %d, j = %d\n", i, j);
-		name = (char **)malloc(sizeof(char *) * (i  + 2));//  + j
+		name = (char **)malloc(sizeof(char *) * (i + 2));
 		if (!name)
 			ft_error("Alocation Error\n", 17);
 		name[i + j + 1] = NULL;
 		name[i + j] = quotes;
 		j--;
-		// while (j >= 0)
-		// {
-		// 	// fprintf(stderr, "n = %d\n", i + j);
-		// 	name[i + j] = quote_temp[j];
-		// 	j--;
-		// }
 		i--;
 		while (i >= 0)
 		{
-			// fprintf(stderr, "m = %d\n", i);
 			name[i] = ft_strdup(result[i]);
 			i--;
 		}
-		// i = 0;
-		// while (name[i])
-		// {
-		// 	fprintf(stderr, "name[%d] = %s\n", i, name[i]);
-		// 	i++;
-		// }
 	}
 	else
 	{
@@ -226,13 +201,6 @@ char	**get_name(char *command)
 		temp = ft_split(command, ' ');
 		command_name = get_joined_name(temp);
 		name = get_result(command_name, temp);
-		// i = 0;
-		// while (name[i])
-		// {
-		// 	fprintf(stderr, "name[%d] = %s\n", i, name[i]);
-		// 	i++;
-		// }
-		
 	}
 
 	free(command_name);

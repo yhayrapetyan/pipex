@@ -47,6 +47,7 @@ char	**get_name(char *command);
 
 // VALIDATION
 char    *get_path(char *command_name, char **env);
+int		is_relative_path(char *cmd_name);
 char    *check_command_access(char *cmd_name, char **paths);
 
 // BONUS

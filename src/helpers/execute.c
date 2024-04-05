@@ -18,6 +18,19 @@ int	is_relative_path(char *cmd_name)
 	return (1);
 }
 
+int	have_path(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strstr(env[i], "PATH="))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	execute(char *command, char **env)
 {
@@ -39,15 +52,11 @@ void	execute(char *command, char **env)
 	if (!command_path)
 	{
 		free_split(cmd_name);
-		ft_error("Command not found!\n", 127);
+		if (have_path(env))
+			ft_error("Command not found!\n", 127);
+		exit(0);
+		// ft_error("Command not found!\n", 127);
 	}
-	// int	i = 0;
-	// fprintf(stderr, "cmd_path = %s\n", command_path);
-	// while (cmd_name[i])
-	// {
-	// 	fprintf(stderr, "cmd_name[%d] = %s\n", i, cmd_name[i]);
-	// 	i++;
-	// }
 	if (execve(command_path, cmd_name, env) == -1)
 	{
 		free_split(cmd_name);
