@@ -165,7 +165,7 @@ char	**get_name(char *command)
 		back_temp = quotes;
 		quotes = remove_back_slash(quotes);
 		free(back_temp);
-		fprintf(stderr, "quotes = %s\n", quotes);
+		// fprintf(stderr, "quotes = %s\n", quotes);
 		while (command[i] && ft_strlen(command) > 1)
 		{
 			if (is_quote(command[i]) && command[i - 1] == ' ')
@@ -222,9 +222,17 @@ char	**get_name(char *command)
 	}
 	else
 	{
+		command = remove_back_slash(command);
 		temp = ft_split(command, ' ');
 		command_name = get_joined_name(temp);
 		name = get_result(command_name, temp);
+		// i = 0;
+		// while (name[i])
+		// {
+		// 	fprintf(stderr, "name[%d] = %s\n", i, name[i]);
+		// 	i++;
+		// }
+		
 	}
 
 	free(command_name);

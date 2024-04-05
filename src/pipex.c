@@ -16,7 +16,11 @@ void	second_child_process(char **av, char **env, int *pipe)
 {
 	int	descriptor;
 
-	descriptor = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (access(av[4], F_OK) == 0 && access(av[4], W_OK) != 0)
+		ft_error("No write permission\n", 1);
+	descriptor = open(av[4],O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// fprintf(stderr, "descript = %d\n", descriptor);
+	// descriptor = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (descriptor == -1)
 		ft_error("Can't open the file in second child\n", 17);
 	if (close(pipe[1]) == -1)
@@ -90,6 +94,8 @@ int	main(int ac, char **av, char **env)
 	// 	printf("%c\n", av[1][i]);
 	// 	i++;
 	// }
+	// char	*arr[3] = {"cat", "hello -e", NULL};
+	// execve("/usr/bin/cat", arr, env);
 	if (ac == 5 && env)
 		start_pipex(av, env);
 	else
