@@ -57,13 +57,23 @@ char	*ft_strdup(const char *s1);
 char	*ft_strtrim(char *s1, char *set);
 int	    ft_strlcpy(char *dst, const char *src, int dstsize);
 char	*ft_strjoin(char *s1, char *s2);
-
+void	clean_and_exit(char **content, char ***temp, char ***result, char ***name);
+void	clean_vars(char **content, char ***temp, char ***result, char ***name);
 void	execute(char *command, char **env);
+int	is_quote(char ch);
+
+//PARSING
+char	*get_joined_name(char **arr);
 char	**get_name(char *command);
+char    *get_path(char *command_name, char **env);
+char	*get_quotes_content(char *command);
+char	**get_result(char *command_name, char **arr);
+Qvars	init_vars(void);
+char	**quotes_parse(char *command);
+char	*remove_back_slash(char *quote);
+char	**simple_parse(char *command);
 
 // VALIDATION
-char    *get_path(char *command_name, char **env);
-int		is_relative_path(char *cmd_name);
 char    *check_command_access(char *cmd_name, char **paths);
 
 // BONUS

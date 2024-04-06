@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-int	is_relative_path(char *cmd_name)
+static int	is_relative_path(char *cmd_name)
 {
 	int	i;
 	int	count;
@@ -18,7 +18,7 @@ int	is_relative_path(char *cmd_name)
 	return (1);
 }
 
-int	have_path(char **env)
+static int	have_path(char **env)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ int	have_path(char **env)
 	return (0);
 }
 
-int	is_built_in_command(char *command)
+static int	is_built_in_command(char *command)
 {
 	const char *builtin_commands[] = {
 			".", ":", "[", "alias", "bg", "bind", "break", "builtin", "caller", "cd",
@@ -96,8 +96,6 @@ void	execute(char *command, char **env)
 		if (!command_path)
 	{
 		free_split(cmd_name);
-//		if (!have_path(env))
-//			ft_error("No such file or directory\n", 0);
 		 ft_error("Command not found!\n", 127);
 	}
 	if (execve(command_path, cmd_name, env) == -1)

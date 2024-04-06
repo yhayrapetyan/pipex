@@ -10,9 +10,22 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_strlcpy.c \
 				ft_strtrim.c \
 				ft_strndup.c \
-				get_name.c \
 				execute.c \
+				is_quote.c \
+				clean_and_exit.c \
+				clean_vars.c \
 				ft_split.c
+
+PARSING_SRC =	get_quotes_content.c \
+				get_joined_name.c \
+                get_name.c \
+                get_path.c \
+                get_result.c \
+                init_vars.c \
+                quotes_parse.c \
+                remove_back_slash.c \
+                simple_parse.c
+
 
 BONUS_SRC =		get_descriptor.c \
                 in_processes.c \
@@ -23,14 +36,14 @@ BONUS_SRC =		get_descriptor.c \
 GNL_SRC =		get_next_line_utils.c \
 				get_next_line.c
 
-VALIDATION_SRC = 	check_command_access.c \
-					get_path.c
+VALIDATION_SRC = 	check_command_access.c
 
 HEADERS = 	pipex.h
 
 SRC_DIR = ./src/
 HELPERS_DIR = ./src/helpers/
 VALIDATION_DIR = ./src/validation/
+PARSING_DIR = ./src/parsing/
 BONUS_DIR = ./src/bonus/
 GNL_DIR = ./src/get_next_line/
 INC = ./includes/
@@ -39,6 +52,7 @@ HEADERS := $(addprefix $(INC), $(HEADERS))
 SRC := $(addprefix $(SRC_DIR), $(SRC))
 VALIDATION_SRC := $(addprefix $(VALIDATION_DIR), $(VALIDATION_SRC))
 HELPERS_SRC := $(addprefix $(HELPERS_DIR), $(HELPERS_SRC))
+PARSING_SRC := $(addprefix $(PARSING_DIR), $(PARSING_SRC))
 BONUS_SRC := $(addprefix $(BONUS_DIR), $(BONUS_SRC))
 GNL_SRC := $(addprefix $(GNL_DIR), $(GNL_SRC))
 OBJS = $(SRC:.c=.o)
@@ -46,9 +60,11 @@ BONUS_OBJS = $(BONUS_SRC:.c=.o)
 
 SRC += $(VALIDATION_SRC)
 SRC += $(HELPERS_SRC)
+SRC += $(PARSING_SRC)
 
 BONUS_SRC += $(VALIDATION_SRC)
 BONUS_SRC += $(HELPERS_SRC)
+BONUS_SRC += $(PARSING_SRC)
 BONUS_SRC += $(GNL_SRC)
 
 CC = cc
