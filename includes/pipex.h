@@ -17,6 +17,22 @@
 #  define BUFFER_SIZE 1000
 # endif
 
+typedef struct	quotes_s
+{
+	int	single_q;
+	int	double_q;
+}				Quotes;
+
+typedef struct	q_vars
+{
+	char	*content;
+	char	*bslash_temp;
+	char	*command_name;
+	char	**temp;
+	char	**result;
+	char	**name;
+}				Qvars;
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>//delete

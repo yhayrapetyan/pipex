@@ -7,6 +7,7 @@ static char	*get_joined_name(char **arr)
 	int		i;
 
 	i = 0;
+	result = NULL;
 	result = ft_strjoin("", arr[0]);
 	while (arr[i] && ft_strchr(arr[i], '\\'))
 	{
@@ -16,6 +17,20 @@ static char	*get_joined_name(char **arr)
 		i++;
 	}
 	return (result);
+}
+
+char	*rm_bslash(char *command_name)
+{
+	int	i;
+
+	i = 0;
+	while (command_name[i])
+	{
+		if (command_name[i] == '\\')
+			command_name[i] = ' ';
+		i++;
+	}
+	return (command_name);
 }
 
 static char	**get_result(char *command_name, char **arr)
@@ -32,17 +47,18 @@ static char	**get_result(char *command_name, char **arr)
 		i++;
 	result = (char **)malloc(sizeof(char *) * (len - i + 1));
 	if (!result)
-		ft_error("Allocation Error\n", 17);
+		return (NULL);
 	result[len - i] = NULL;
 	while (len-- - i > 1)
-		result[len - i] = ft_strdup(arr[len]);
-	i = 0;
-	while (command_name[i])
 	{
-		if (command_name[i] == '\\')
-			command_name[i] = ' ';
-		i++;
+		result[len - i] = ft_strdup(arr[len]);
+		if (result[len - i] == NULL)
+		{
+			free_split(result);
+			return (NULL);
+		}
 	}
+	command_name = rm_bslash(command_name);
 	result[0] = ft_strdup(command_name);
 	return (result);
 }
@@ -54,7 +70,7 @@ static int	is_quote(char ch)
 	return (0);
 }
 
-char	*parse_quotes(char *command)
+char	*get_quotes_content(char *command)
 {
 	int		start;
 	int		end;
@@ -92,12 +108,10 @@ char	*parse_quotes(char *command)
 	return (ft_strndup(command + start, real_end - start + 1));
 }
 
-char	*remove_back_slash(char *quote)
+int	get_bslash_count(char *quote)
 {
-	int		i;
-	int		j;
-	int		count;
-	char	*res;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -108,9 +122,20 @@ char	*remove_back_slash(char *quote)
 			continue ;
 		count++;
 	}
+	return (count);
+}
+
+char	*remove_back_slash(char *quote)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	*res;
+
+	count = get_bslash_count(quote);
 	res = (char *)malloc(sizeof(char *) * (count + 1));
 	if (!res)
-		ft_error("Alocation Error\n", 17);
+		NULL;
 	i = 0;
 	j = 0;
 	while (quote[i])
@@ -126,85 +151,170 @@ char	*remove_back_slash(char *quote)
 	return (res);
 }
 
-char	**get_name(char *command)
+Quotes	get_quotes_count(char *command)
 {
-	char	**temp;
-	char	**quote_temp;
-	char	*command_name;
-	char	*new_command;
-	char	*quotes;
-	char	*back_temp;
-	char	**result;
-	char	**name;
-	int		single_quote;
-	int		double_quote;
+	Quotes	quotes;
 	int		i;
-	int		j;
 
+	quotes.single_q = 0;
+	quotes.double_q = 0;
 	i = 0;
-	j = 0;
-	single_quote = 0;
-	double_quote = 0;
-	result = NULL;
 	while (command[i])
 	{
 		if (command[i] == '"')
-			double_quote++;
+			quotes.double_q++;
 		if (command[i] == '\'')
-			single_quote++;
+			quotes.single_q++;
 		i++;
 	}
-	i = 0;
-	if (single_quote > 1 || double_quote > 1)
-	{
-		quotes = parse_quotes(command);
-		back_temp = quotes;
-		quotes = remove_back_slash(quotes);
-		free(back_temp);
-		while (command[i] && ft_strlen(command) > 1)
-		{
-			if (is_quote(command[i]) && command[i - 1] == ' ')
-			{
-				command[i - 1] = '\0';
-				break ;
-			}
-			i++;
-		}
-		new_command = ft_strndup(command, i - 1);
-		if (!new_command)
-			ft_error("Alocation Error\n", 17);
-		temp = ft_split(new_command, ' ');
-		quote_temp = ft_split(quotes, ' ');
-		if (!quote_temp)
-			ft_error("Alocation Error\n", 17);
-		command_name = get_joined_name(temp);
-		result = get_result(command_name, temp);
-		i = 0;
-		while (result[i])
-			i++;
-		name = (char **)malloc(sizeof(char *) * (i + 2));
-		if (!name)
-			ft_error("Alocation Error\n", 17);
-		name[i + j + 1] = NULL;
-		name[i + j] = quotes;
-		j--;
-		i--;
-		while (i >= 0)
-		{
-			name[i] = ft_strdup(result[i]);
-			i--;
-		}
-	}
-	else
-	{
-		command = remove_back_slash(command);
-		temp = ft_split(command, ' ');
-		command_name = get_joined_name(temp);
-		name = get_result(command_name, temp);
-	}
+	return (quotes);
+}
 
-	free(command_name);
-	free_split(result);
-	free_split(temp);
+Qvars	init_vars(void)
+{
+	Qvars	vars;
+
+	vars.content = NULL;
+	vars.bslash_temp = NULL;
+	vars.command_name = NULL;
+	vars.temp = NULL;
+	vars.result = NULL;
+	vars.name = NULL;
+	return (vars);
+}
+
+char	*remove_quotes(char *command)
+{
+	int	i;
+
+	i = 0;
+	while (command[i] && ft_strlen(command) > 1)
+	{
+		if (is_quote(command[i]) && command[i - 1] == ' ')
+		{
+			command[i - 1] = '\0';
+			break ;
+		}
+		i++;
+	}
+	return (ft_strdup(command));
+}
+
+void	clean_and_exit(char **content, char ***temp, char ***result, char ***name)
+{
+	if (content != NULL)
+		free(*content);
+	if (temp != NULL)
+		free_split(*temp);
+	if (result != NULL)
+		free_split(*result);
+	if (name != NULL)
+	ft_error("Allocation Error\n", 17);
+}
+
+void	clean_vars(char **content, char ***temp, char ***result, char ***name)
+{
+	if (content != NULL)
+		free(*content);
+	if (temp != NULL)
+		free_split(*temp);
+	if (result != NULL)
+		free_split(*result);
+	if (name != NULL)
+		free_split(*name);
+}
+
+void	get_name2(Qvars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->result[i])
+		i++;
+	vars->name = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!vars->name)
+		clean_and_exit(&vars->content, &vars->temp, &vars->result, NULL);
+	vars->name[i + 1] = NULL;
+	vars->name[i] = vars->content;
+	free(vars->content);
+	i--;
+	while (i >= 0)
+	{
+		vars->name[i] = ft_strdup(vars->result[i]);
+		if (!vars->name[i])
+			clean_and_exit(&vars->content, &vars->temp, &vars->result, &vars->name);
+		i--;
+	}
+	clean_vars(&vars->content, &vars->temp, &vars->result, NULL);
+}
+
+char	**quotes_parse(char *command)
+{
+	Qvars	vars;
+
+	vars = init_vars();
+	vars.content = get_quotes_content(command);
+	if (!vars.content)
+		ft_error("Allocation Error\n", 17);
+	vars.bslash_temp = vars.content;
+	vars.content = remove_back_slash(vars.content);
+	free(vars.bslash_temp);
+	if (!vars.content)
+		ft_error("Allocation Error\n", 17);
+	vars.command_name = remove_quotes(command);
+	if (!vars.command_name)
+		clean_and_exit(&vars.content, NULL, NULL, NULL);
+	vars.temp = ft_split(vars.command_name, ' ');
+	free(vars.command_name);
+	if (!vars.temp)
+		clean_and_exit(&vars.content, NULL, NULL, NULL);
+	vars.command_name = get_joined_name(vars.temp);
+	if (!vars.command_name)
+		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
+	vars.result = get_result(vars.command_name, vars.temp);
+	free(vars.command_name);
+	if (!vars.result)
+		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
+	get_name2(&vars);
+	return (vars.name);
+}
+
+char	**simple_parse(char *command)
+{
+	Qvars	vars;
+
+	vars = init_vars();
+	vars.content = remove_back_slash(command);
+	if (!vars.content)
+		ft_error("Allocation Error\n", 17);
+	vars.temp = ft_split(vars.content, ' ');
+	if (!vars.temp)
+		clean_and_exit(&vars.content, NULL, NULL, NULL);
+	vars.command_name = get_joined_name(vars.temp);
+	if (!vars.command_name)
+		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
+	vars.name = get_result(vars.command_name, vars.temp);
+	if (!vars.name)
+		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
+	clean_vars(&vars.content, &vars.temp, NULL, NULL);
+	return (vars.name);
+}
+
+char	**get_name(char *command)
+{
+	Quotes	quotes_count;
+	char	**name;
+
+	quotes_count = get_quotes_count(command);
+	if (quotes_count.single_q > 1 || quotes_count.double_q > 1)
+		name = quotes_parse(command);
+	else
+		name = simple_parse(command);
+//	int	i = 0;
+//	while (name[i])
+//	{
+//		fprintf(stderr, "name[%d] = %s\n", i, name[i]);
+//		i++;
+//	}
 	return (name);
 }
