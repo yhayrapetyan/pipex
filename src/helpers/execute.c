@@ -56,53 +56,58 @@ static int	is_built_in_command(char *command)
 	return (0);
 }
 
-void	execute(char *command, char **env)
+void	idk(Evars *e_vars, char **env)
 {
-	char	**cmd_name;
-	char	*command_path = NULL;
-	int		flag;
-
-
-	flag = 0;
-	cmd_name = get_name(command);
 	if (have_path(env))
 	{
-		if (ft_strncmp(cmd_name[0], "./", 2) == 0)
-		{
-			if (access(cmd_name[0], F_OK) == 0)
-				command_path = cmd_name[0];
-		}
+		if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0 && access(e_vars->cmd_args[0], F_OK) == 0)
+			e_vars->cmd_path = e_vars->cmd_args[0];
 		else
-			command_path = get_path(cmd_name[flag++], env);
-		if (command_path == NULL && is_relative_path(cmd_name[0]) && access(cmd_name[0], F_OK) == 0)
-			command_path = cmd_name[--flag];
+			e_vars->cmd_path = get_bin_path(e_vars->cmd_args[e_vars->is_allocated++], env);
+		if (e_vars->cmd_path == NULL && is_relative_path(e_vars->cmd_args[0]) && access(e_vars->cmd_args[0], F_OK) == 0)
+		{
+			e_vars->is_allocated--;
+			e_vars->cmd_path = e_vars->cmd_args[e_vars->is_allocated];
+		}
 	}
 	else
 	{
-		if (ft_strncmp(cmd_name[0], "./", 2) == 0)
-		{
-			if (access(cmd_name[0], F_OK) == 0)
-				command_path = cmd_name[0];
-		}
+		if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0 && access(e_vars->cmd_args[0], F_OK) == 0)
+			e_vars->cmd_path = e_vars->cmd_args[0];
 		else
 		{
-			fprintf(stderr, "command = %s\n", cmd_name[0]);
-			if (is_built_in_command(cmd_name[0]))//in built-in
+			if (is_built_in_command(e_vars->cmd_args[0]))
 				ft_error("Command not found!\n", 0);
-			if (access(cmd_name[0], F_OK) == 0)
-				command_path = cmd_name[0];
+			if (access(e_vars->cmd_args[0], F_OK) == 0)
+				e_vars->cmd_path = e_vars->cmd_args[0];
 		}
 	}
-		if (!command_path)
+}
+
+void	get_path(Evars *e_vars, char **env)
+{
+	idk(e_vars, env);
+	if (!e_vars->cmd_path)
 	{
-		free_split(cmd_name);
-		 ft_error("Command not found!\n", 127);
+		free_split(e_vars->cmd_args);
+		ft_error("Command not found!\n", 127);
 	}
-	if (execve(command_path, cmd_name, env) == -1)
+}
+
+void	execute(char *command, char **env)
+{
+	Evars	e_vars;
+
+	e_vars.cmd_args = NULL;
+	e_vars.cmd_path = NULL;
+	e_vars.is_allocated = 0;
+	e_vars.cmd_args = get_name(command);
+	get_path(&e_vars, env);
+	if (execve(e_vars.cmd_path, e_vars.cmd_args, env) == -1)
 	{
-		free_split(cmd_name);
-		if (flag == 1)
-			free(command_path);
+		free_split(e_vars.cmd_args);
+		if (e_vars.is_allocated == 1)
+			free(e_vars.cmd_path);
 		ft_error("Can't execute the command!\n", 126);
 	}
 }

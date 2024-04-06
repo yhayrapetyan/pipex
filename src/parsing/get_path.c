@@ -1,12 +1,13 @@
 #include "pipex.h"
 
-char	*get_path(char *command_name, char **env)
+char	*get_bin_path(char *command_name, char **env)
 {
 	char	*command_path;
 	char	**bin_paths;
 	int		i;
 
 	i = 0;
+	bin_paths = NULL;
 	while (env[i] && !ft_strstr(env[i], "PATH="))
 		i++;
 	if (!env[i])

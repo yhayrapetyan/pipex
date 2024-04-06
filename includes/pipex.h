@@ -33,6 +33,13 @@ typedef struct	q_vars
 	char	**name;
 }				Qvars;
 
+typedef struct	e_vars
+{
+	char	**cmd_args;
+	char	*cmd_path;
+	int		is_allocated;
+}				Evars;
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>//delete
@@ -65,7 +72,7 @@ int	is_quote(char ch);
 //PARSING
 char	*get_joined_name(char **arr);
 char	**get_name(char *command);
-char    *get_path(char *command_name, char **env);
+char    *get_bin_path(char *command_name, char **env);
 char	*get_quotes_content(char *command);
 char	**get_result(char *command_name, char **arr);
 Qvars	init_vars(void);
