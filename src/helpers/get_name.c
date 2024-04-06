@@ -218,6 +218,7 @@ void	clean_vars(char **content, char ***temp, char ***result, char ***name)
 		free(*content);
 	if (temp != NULL)
 		free_split(*temp);
+	(void)content;
 	if (result != NULL)
 		free_split(*result);
 	if (name != NULL)
@@ -235,8 +236,9 @@ void	get_name2(Qvars *vars)
 	if (!vars->name)
 		clean_and_exit(&vars->content, &vars->temp, &vars->result, NULL);
 	vars->name[i + 1] = NULL;
-	vars->name[i] = vars->content;
-	free(vars->content);
+	vars->name[i] = ft_strdup(vars->content);
+	if (!vars->name[i])
+		clean_and_exit(&vars->content, &vars->temp, &vars->result, &vars->name);
 	i--;
 	while (i >= 0)
 	{
@@ -245,7 +247,7 @@ void	get_name2(Qvars *vars)
 			clean_and_exit(&vars->content, &vars->temp, &vars->result, &vars->name);
 		i--;
 	}
-	clean_vars(&vars->content, &vars->temp, &vars->result, NULL);
+	clean_vars(&(vars->content), &(vars->temp), &(vars->result), NULL);
 }
 
 char	**quotes_parse(char *command)
