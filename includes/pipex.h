@@ -37,6 +37,7 @@ typedef struct	e_vars
 {
 	char	**cmd_args;
 	char	*cmd_path;
+	char	**bin_paths;
 	int		is_allocated;
 }				Evars;
 
@@ -72,7 +73,7 @@ int	is_quote(char ch);
 //PARSING
 char	*get_joined_name(char **arr);
 char	**get_name(char *command);
-char    *get_bin_path(char *command_name, char **env);
+char	*get_bin_path(Evars *e_vars, char **env);
 char	*get_quotes_content(char *command);
 char	**get_result(char *command_name, char **arr);
 Qvars	init_vars(void);
@@ -81,7 +82,7 @@ char	*remove_back_slash(char *quote);
 char	**simple_parse(char *command);
 
 // VALIDATION
-char    *check_command_access(char *cmd_name, char **paths);
+char    *check_command_access(Evars *e_vars);
 
 // BONUS
 int		get_descriptor(char *file_name, char c);

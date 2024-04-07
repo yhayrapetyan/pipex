@@ -9,5 +9,6 @@ void	clean_and_exit(char **content, char ***temp, char ***result, char ***name)
 	if (result != NULL)
 		free_split(*result);
 	if (name != NULL)
-		ft_error("Allocation Error\n", 17);
+		free_split(*name);
+	ft_error("Allocation Error\n", 17);
 }

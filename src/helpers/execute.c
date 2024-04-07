@@ -63,7 +63,10 @@ void	idk(Evars *e_vars, char **env)
 		if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0 && access(e_vars->cmd_args[0], F_OK) == 0)
 			e_vars->cmd_path = e_vars->cmd_args[0];
 		else
-			e_vars->cmd_path = get_bin_path(e_vars->cmd_args[e_vars->is_allocated++], env);
+		{
+			e_vars->is_allocated++;
+			e_vars->cmd_path = get_bin_path(e_vars, env);
+		}
 		if (e_vars->cmd_path == NULL && is_relative_path(e_vars->cmd_args[0]) && access(e_vars->cmd_args[0], F_OK) == 0)
 		{
 			e_vars->is_allocated--;
@@ -100,6 +103,7 @@ void	execute(char *command, char **env)
 
 	e_vars.cmd_args = NULL;
 	e_vars.cmd_path = NULL;
+	e_vars.bin_paths = NULL;
 	e_vars.is_allocated = 0;
 	e_vars.cmd_args = get_name(command);
 	get_path(&e_vars, env);
