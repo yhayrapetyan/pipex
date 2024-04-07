@@ -41,6 +41,15 @@ typedef struct	e_vars
 	int		is_allocated;
 }				Evars;
 
+typedef struct	c_vars
+{
+	int		start;
+	int		end;
+	int		real_end;
+	char	quote;
+	char	first_quote;
+}				Cvars;
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>//delete
