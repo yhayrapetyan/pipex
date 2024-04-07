@@ -14,7 +14,7 @@ static char	*rm_bslash(char *command_name)
 	return (command_name);
 }
 
-char	**get_result(char *command_name, char **arr)
+char	**get_command_with_options(char *command_name, char **arr)
 {
 	char	**result;
 	int		len;

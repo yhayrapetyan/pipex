@@ -1,24 +1,5 @@
 #include "pipex.h"
 
-void	free_split(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		str[i] = NULL;
-		i++;
-	}
-	free(str[i]);
-	str[i] = NULL;
-	free(str);
-	str = NULL;
-}
-
 static int	words_count(char const *s, char sep)
 {
 	int	i;
@@ -38,8 +19,6 @@ static int	words_count(char const *s, char sep)
 	}
 	return (count_words);
 }
-
-
 
 static int	fill(char **res, char const *s, char c, int nb_words)
 {

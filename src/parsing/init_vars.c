@@ -8,7 +8,7 @@ Qvars	init_vars(void)
 	vars.bslash_temp = NULL;
 	vars.command_name = NULL;
 	vars.temp = NULL;
-	vars.result = NULL;
+	vars.cwo = NULL;
 	vars.name = NULL;
 	return (vars);
 }

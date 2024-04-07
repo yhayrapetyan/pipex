@@ -14,7 +14,7 @@ char	**simple_parse(char *command)
 	vars.command_name = get_joined_name(vars.temp);
 	if (!vars.command_name)
 		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
-	vars.name = get_result(vars.command_name, vars.temp);
+	vars.name = get_command_with_options(vars.command_name, vars.temp);
 	if (!vars.name)
 		clean_and_exit(&vars.content, &vars.temp, NULL, NULL);
 	clean_vars(&vars.content, &vars.temp, NULL, NULL);

@@ -7,9 +7,8 @@ HELPERS_SRC = 	ft_strjoin.c \
 				ft_strchr.c \
 				ft_strdup.c \
 				ft_strlen.c \
-				ft_strlcpy.c \
-				ft_strtrim.c \
 				ft_strndup.c \
+				free_split.c \
 				execute.c \
 				is_quote.c \
 				clean_and_exit.c \
@@ -18,9 +17,10 @@ HELPERS_SRC = 	ft_strjoin.c \
 
 PARSING_SRC =	get_quotes_content.c \
 				get_joined_name.c \
-                get_name.c \
+                get_args.c \
+                get_bin_path.c \
                 get_path.c \
-                get_result.c \
+                get_command_with_options.c \
                 init_vars.c \
                 quotes_parse.c \
                 remove_back_slash.c \

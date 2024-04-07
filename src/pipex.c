@@ -52,32 +52,29 @@ void	first_child_process(char **av, char **env, int *pipe)
 
 void	start_pipex(char **av, char **env)
 {
-	int		fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
-	int		status;
+	Pvars	p_vars;
 
-	status = 0;
-	if (pipe(fd) == -1)
+	p_vars.status = 0;
+	if (pipe(p_vars.fd) == -1)
 		ft_error("Can't create the pipe\n", 17);
-	pid1 = fork();
-	pid2 = fork();
-	if (pid1 == -1 || pid2 == -1)
+	p_vars.pid1 = fork();
+	p_vars.pid2 = fork();
+	if (p_vars.pid1 == -1 || p_vars.pid2 == -1)
 		ft_error("Can't create the child process\n", 17);
-	if (pid1 == 0 && pid2 != 0)
-		first_child_process(av, env, fd);
-	if (pid1 != 0 && pid2 == 0)
-		second_child_process(av, env, fd);
-	if (close(fd[0]) == -1 || close(fd[1]) == -1)
+	if (p_vars.pid1 == 0 && p_vars.pid2 != 0)
+		first_child_process(av, env, p_vars.fd);
+	if (p_vars.pid1 != 0 && p_vars.pid2 == 0)
+		second_child_process(av, env, p_vars.fd);
+	if (close(p_vars.fd[0]) == -1 || close(p_vars.fd[1]) == -1)
 		ft_error("Can't close the pipe\n", 17);
-	if (pid1 != 0 && pid2 != 0)
+	if (p_vars.pid1 != 0 && p_vars.pid2 != 0)
 	{
-		if (waitpid(pid1, NULL, 0) == -1)
+		if (waitpid(p_vars.pid1, NULL, 0) == -1)
 			ft_error("Waitpid Error!\n", 16);
-		if (waitpid(pid2, &status, 0) == -1)
+		if (waitpid(p_vars.pid2, &p_vars.status, 0) == -1)
 			ft_error("Waitpid Error!\n", 17);
-		if (status != 0)
-			exit(WEXITSTATUS(status));
+		if (p_vars.status != 0)
+			exit(WEXITSTATUS(p_vars.status));
 			// exit(1);
 	}
 }

@@ -19,15 +19,13 @@ static Quotes	get_quotes_count(char *command)
 	return (quotes);
 }
 
-char	**get_name(char *command)
+void	get_args(Evars *e_vars, char *command)
 {
 	Quotes	quotes_count;
-	char	**name;
 
 	quotes_count = get_quotes_count(command);
 	if (quotes_count.single_q > 1 || quotes_count.double_q > 1)
-		name = quotes_parse(command);
+		e_vars->cmd_args = quotes_parse(command);
 	else
-		name = simple_parse(command);
-	return (name);
+		e_vars->cmd_args = simple_parse(command);
 }
