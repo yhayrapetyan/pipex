@@ -87,7 +87,7 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: print_info $(NAME)
 
-# bonus: delete_old_pipex print_info  $(BONUS_NAME)
+#bonus: delete_old_pipex print_info  $(BONUS_NAME)
 
 delete_old_pipex:
 	@$(RM) $(NAME)

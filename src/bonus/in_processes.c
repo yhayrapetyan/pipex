@@ -1,6 +1,6 @@
 #include "pipex.h"
 
-void	in_processes(char *command, char **env)
+pid_t	in_processes(char *command, char **env)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -16,6 +16,8 @@ void	in_processes(char *command, char **env)
 			ft_error("Can't close the pipe\n", 17);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
+		if (close(fd[1]) == -1)
+			ft_error("Can't close the pipe\n", 17);
 		execute(command, env);
 	}
 	else
@@ -24,5 +26,8 @@ void	in_processes(char *command, char **env)
 			ft_error("Can't close the pipe\n", 17);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
+		if (close(fd[0]) == -1)
+			ft_error("Can't close the pipe\n", 17);
 	}
+	return (pid);
 }

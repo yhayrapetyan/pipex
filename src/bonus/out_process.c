@@ -16,6 +16,8 @@ pid_t	out_process(char *command, char **env, int file_out)
 			ft_error("Can't close the pipe\n", 17);
 		if (dup2(file_out, STDOUT_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
+		if (close(fd[0]) == -1)
+			ft_error("Can't close the pipe\n", 17);
 		execute(command, env);
 	}
 	else
@@ -24,6 +26,8 @@ pid_t	out_process(char *command, char **env, int file_out)
 			ft_error("Can't close the pipe\n", 17);
 		if (dup2(fd[1], STDIN_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
+		if (close(fd[1]) == -1)
+			ft_error("Can't close the pipe\n", 17);
 	}
 	return (pid);
 }

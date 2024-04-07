@@ -102,7 +102,7 @@ char    *check_command_access(Evars *e_vars);
 
 // BONUS
 pid_t	out_process(char *command, char **env, int file_out);
-void	in_processes(char *command, char **env);
+pid_t	in_processes(char *command, char **env);
 int		get_descriptor(char *file_name, char c);
 void	here_doc(char *limiter, int argc);
 

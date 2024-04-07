@@ -54,11 +54,3 @@ char	*get_next_line(int fd)
 	left_str = get_new_left_str(left_str);
 	return (line);
 }
-
-// int main(void)
-// {
-// 	int	fileDesk;
-
-// 	fileDesk = open("test.txt", O_RDONLY);
-// 	printf("%s", get_next_line(fileDesk));
-// }

@@ -74,8 +74,7 @@ void	start_pipex(char **av, char **env)
 		if (waitpid(p_vars.pid2, &p_vars.status, 0) == -1)
 			ft_error("Waitpid Error!\n", 17);
 		if (p_vars.status != 0)
-			exit(WEXITSTATUS(p_vars.status));
-			// exit(1);
+			exit((p_vars.status >> 8) & 0xFF);
 	}
 }
 
