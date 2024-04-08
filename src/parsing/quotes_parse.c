@@ -48,7 +48,8 @@ static void	get_result(Qvars *vars)
 	{
 		vars->name[i] = ft_strdup(vars->cwo[i]);
 		if (!vars->name[i])
-			clean_and_exit(&vars->content, &vars->temp, &vars->cwo, &vars->name);
+			clean_and_exit(&vars->content, &vars->temp,
+				&vars->cwo, &vars->name);
 		i--;
 	}
 	clean_vars(&(vars->content), &(vars->temp), &(vars->cwo), NULL);
