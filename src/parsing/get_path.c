@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_path.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yuhayrap <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/08 18:28:07 by yuhayrap          #+#    #+#             */
+/*   Updated: 2024/04/08 18:28:09 by yuhayrap         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 static int	is_relative_path(char *cmd_name)
@@ -58,7 +70,7 @@ static int	is_built_in_command(char *command)
 
 void	get_path_with_env(Evars *e_vars, char **env)
 {
-	if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0 && access(e_vars->cmd_args[0], F_OK) == 0)
+	if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0)// && access(e_vars->cmd_args[0], F_OK) == 0)
 		e_vars->cmd_path = e_vars->cmd_args[0];
 	else
 	{
@@ -94,6 +106,6 @@ void	get_path(Evars *e_vars, char **env)
 	if (!e_vars->cmd_path)
 	{
 		free_split(e_vars->cmd_args);
-		ft_error("Command not found!\n", 127);
+		ft_error("Command not found!!!\n", 127);
 	}
 }
