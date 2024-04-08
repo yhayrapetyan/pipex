@@ -14,42 +14,47 @@
 
 static Cvars	init_cvars(char *command)
 {
-	Cvars	c_vars;
+	Cvars	var;
 
-	c_vars.start = 0;
-	c_vars.end = ft_strlen(command);
-	c_vars.first_quote = '\0';
-	return (c_vars);
+	var.start = 0;
+	var.end = ft_strlen(command);
+	var.first_quote = '\0';
+	return (var);
+}
+
+static void	function_for_norm(Cvars *var, char *command)
+{
+	while (--var->end >= 0 && command[var->end] == var->quote)
+		;
+	if (var->end + 1 != var->start)
+		var->real_end = var->end;
 }
 
 char	*get_quotes_content(char *command)
 {
-	Cvars	c_vars;
+	Cvars	var;
 
-	c_vars = init_cvars(command);
-	while (c_vars.start <= c_vars.end)
+	var = init_cvars(command);
+	while (var.start <= var.end)
 	{
-		while (command[c_vars.start] && c_vars.start < c_vars.end)
+		while (command[var.start] && var.start < var.end)
 		{
-			if (is_quote(command[c_vars.start]))
+			if (is_quote(command[var.start]))
 			{
-				if (c_vars.first_quote == '\0')
-					c_vars.first_quote = command[c_vars.start];
-				if (command[c_vars.start] != c_vars.first_quote)
-					return (ft_strndup(command + c_vars.start,
-							c_vars.end - c_vars.start + 1));
-				c_vars.quote = command[c_vars.start];
-				c_vars.start++;
+				if (var.first_quote == '\0')
+					var.first_quote = command[var.start];
+				if (command[var.start] != var.first_quote)
+					return (ft_strndup(command + var.start,
+							var.end - var.start + 1));
+				var.quote = command[var.start];
+				var.start++;
 				break ;
 			}
-			c_vars.start++;
+			var.start++;
 		}
-		while (--c_vars.end >= 0 && command[c_vars.end] == c_vars.quote)
-			;
-		if (c_vars.end + 1 != c_vars.start)
-			c_vars.real_end = c_vars.end;
-		if (!is_quote(command[c_vars.start]))
+		function_for_norm(&var, command);
+		if (!is_quote(command[var.start]))
 			break ;
 	}
-	return (ft_strndup(command + c_vars.start, c_vars.real_end - c_vars.start + 1));
+	return (ft_strndup(command + var.start, var.real_end - var.start + 1));
 }

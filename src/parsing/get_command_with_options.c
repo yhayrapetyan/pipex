@@ -26,32 +26,40 @@ static char	*rm_bslash(char *command_name)
 	return (command_name);
 }
 
-char	**get_command_with_options(char *command_name, char **arr)
+static void	get_indexes(char **arr, Ovars *o_vars)
 {
-	char	**result;
-	int		len;
-	int		i;
+	int	i;
+	int	len;
 
-	len = 0;
 	i = 0;
+	len = 0;
 	while (arr[len])
 		len++;
 	while (arr[i] && ft_strchr(arr[i], '\\'))
 		i++;
-	result = (char **)malloc(sizeof(char *) * (len - i + 1));
-	if (!result)
+	o_vars->i = i;
+	o_vars->len = len;
+}
+
+char	**get_command_with_options(char *command_name, char **arr)
+{
+	Ovars	var;
+
+	get_indexes(arr, &var);
+	var.result = (char **)malloc(sizeof(char *) * (var.len - var.i + 1));
+	if (!var.result)
 		return (NULL);
-	result[len - i] = NULL;
-	while (len-- - i > 1)
+	var.result[var.len - var.i] = NULL;
+	while (var.len-- - var.i > 1)
 	{
-		result[len - i] = ft_strdup(arr[len]);
-		if (result[len - i] == NULL)
+		var.result[var.len - var.i] = ft_strdup(arr[var.len]);
+		if (var.result[var.len - var.i] == NULL)
 		{
-			free_split(result);
+			free_split(var.result);
 			return (NULL);
 		}
 	}
 	command_name = rm_bslash(command_name);
-	result[0] = ft_strdup(command_name);
-	return (result);
+	var.result[0] = ft_strdup(command_name);
+	return (var.result);
 }

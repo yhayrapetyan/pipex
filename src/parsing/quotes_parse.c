@@ -55,15 +55,20 @@ static void	get_result(Qvars *vars)
 	clean_vars(&(vars->content), &(vars->temp), &(vars->cwo), NULL);
 }
 
+static void	function_for_norm(char *content, Qvars *vars)
+{
+	if (!content)
+		ft_error("Allocation Error\n", 17);
+	vars->bslash_temp = vars->content;
+}
+
 char	**quotes_parse(char *command)
 {
 	Qvars	vars;
 
 	vars = init_vars();
 	vars.content = get_quotes_content(command);
-	if (!vars.content)
-		ft_error("Allocation Error\n", 17);
-	vars.bslash_temp = vars.content;
+	function_for_norm(vars.content, &vars);
 	vars.content = remove_back_slash(vars.content);
 	free(vars.bslash_temp);
 	if (!vars.content)
