@@ -20,7 +20,11 @@ int	get_descriptor(char *file_name, char c)
 	if (c == 'H')
 		descriptor = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else if (c == 'O')
+	{
+		if (access(file_name, F_OK) == 0 && access(file_name, W_OK) != 0)
+			ft_error("No write permission\n", 1);
 		descriptor = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
 	else if (c == 'I')
 		descriptor = open(file_name, O_RDONLY);
 	if (descriptor == -1)

@@ -12,51 +12,54 @@
 
 #include "pipex.h"
 
+static Bvars	init_bvars(void)
+{
+	Bvars	vars;
+
+	vars.i = 2;
+	vars.j = 0;
+	return (vars);
+}
+
 static void	start_pipex_bonus(int ac, char **av, char **env)
 {
-	int		in_file;
-	int		out_file;
-	int		i;
-	int		j;
-	int		status;
-	pid_t	*status_arr;
+	Bvars	vars;
 
-	i = 2;
-	j = 0;
+	vars = init_bvars();
 	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
-		out_file = get_descriptor(av[ac - 1], 'H');
+		vars.out_file = get_descriptor(av[ac - 1], 'H');
 		here_doc(av[2], ac);
-		i++;
+		vars.i++;
 	}
 	else
 	{
-		in_file = get_descriptor(av[1], 'I');
-		out_file = get_descriptor(av[ac - 1], 'O');
-		if (dup2(in_file, STDIN_FILENO) == -1)
+		vars.in_file = get_descriptor(av[1], 'I');
+		vars.out_file = get_descriptor(av[ac - 1], 'O');
+		if (dup2(vars.in_file, STDIN_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
 	}
-	status_arr = (pid_t *)malloc(sizeof(pid_t) * (ac - 3));
-	if (status_arr == NULL)
+	vars.status_arr = (pid_t *)malloc(sizeof(pid_t) * (ac - 3));
+	if (vars.status_arr == NULL)
 		ft_error("Allocation failed\n", 17);
-	while (i < ac - 2)
+	while (vars.i < ac - 2)
 	{
-		status_arr[j] = in_processes(av[i], env);
-		i++;
-		j++;
+		vars.status_arr[vars.j] = in_processes(av[vars.i], env);
+		vars.i++;
+		vars.j++;
 	}
-	status_arr[j] = out_process(av[i], env, out_file);
-	i = 0;
-	while (i < j)
+	vars.status_arr[vars.j] = out_process(av[vars.i], env, vars.out_file);
+	vars.i = 0;
+	while (vars.i < vars.j)
 	{
-		if (waitpid(status_arr[i], NULL, 0) == -1)
+		if (waitpid(vars.status_arr[vars.i], NULL, 0) == -1)
 			ft_error("Waitpid Error!\n", 17);
-		i++;
+		vars.i++;
 	}
-	if (waitpid(status_arr[i], &status, 0) == -1)
+	if (waitpid(vars.status_arr[vars.i], &vars.status, 0) == -1)
 		ft_error("Waitpid Error!\n", 17);
-	if (status != 0)
-		exit(WEXITSTATUS(status));
+	if (vars.status != 0)
+		exit((vars.status >> 8) & 0xFF);
 }
 
 int	main(int ac, char **av, char **env)

@@ -69,8 +69,26 @@ typedef struct	p_vars
 	int		status;
 }				Pvars;
 
+typedef struct	o_vars
+{
+	char	**result;
+	int		len;
+	int		i;
+}				Ovars;
+
+typedef struct b_vars
+{
+	int		in_file;
+	int		out_file;
+	int		i;
+	int		j;
+	int		status;
+	pid_t	*status_arr;
+
+}				Bvars;
+
 // HELPERS
-void	clean_and_exit(char **content, char ***temp, char ***result, char ***name);
+void	clean_and_exit(char **content, char ***temp, char ***res, char ***name);
 void	clean_vars(char **content, char ***temp, char ***result, char ***name);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 char	*ft_strstr(char *str, char *to_find);
@@ -82,7 +100,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(const char *s1);
 int		ft_strchr(char *s, int c);
 void	free_split(char **str);
-int     ft_strlen(char *str);
+int		ft_strlen(char *str);
 int		is_quote(char ch);
 
 //PARSING
@@ -98,7 +116,7 @@ char	*get_joined_name(char **arr);
 Qvars	init_vars(void);
 
 // VALIDATION
-char    *check_command_access(Evars *e_vars);
+char	*check_command_access(Evars *e_vars);
 
 // BONUS
 pid_t	out_process(char *command, char **env, int file_out);

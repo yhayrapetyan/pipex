@@ -12,6 +12,16 @@
 
 #include "pipex.h"
 
+static void	close_parent(int *fd)
+{
+	if (close(fd[1]) == -1)
+		ft_error("Can't close the pipe\n", 17);
+	if (dup2(fd[0], STDIN_FILENO) == -1)
+		ft_error("Can't duplicate the descriptor\n", 17);
+	if (close(fd[0]) == -1)
+		ft_error("Can't close the pipe\n", 17);
+}
+
 pid_t	in_processes(char *command, char **env)
 {
 	pid_t	pid;
@@ -33,13 +43,6 @@ pid_t	in_processes(char *command, char **env)
 		execute(command, env);
 	}
 	else
-	{
-		if (close(fd[1]) == -1)
-			ft_error("Can't close the pipe\n", 17);
-		if (dup2(fd[0], STDIN_FILENO) == -1)
-			ft_error("Can't duplicate the descriptor\n", 17);
-		if (close(fd[0]) == -1)
-			ft_error("Can't close the pipe\n", 17);
-	}
+		close_parent(fd);
 	return (pid);
 }
