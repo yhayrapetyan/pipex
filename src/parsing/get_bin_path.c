@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-char	*get_bin_path(Evars *e_vars, char **env)
+char	*get_bin_path(t_Evars *e_vars, char **env)
 {
 	char	*command_path;
 	int		i;

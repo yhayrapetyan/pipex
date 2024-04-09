@@ -26,15 +26,15 @@
 # include <fcntl.h>
 # include <stdio.h>//delete
 # include <stdlib.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 
-typedef struct	quotes_s
+typedef struct quotes_s
 {
 	int	single_q;
 	int	double_q;
-}				Quotes;
+}				t_Quotes;
 
-typedef struct	q_vars
+typedef struct q_vars
 {
 	char	*content;
 	char	*bslash_temp;
@@ -42,39 +42,39 @@ typedef struct	q_vars
 	char	**temp;
 	char	**cwo;
 	char	**name;
-}				Qvars;
+}				t_Qvars;
 
-typedef struct	e_vars
+typedef struct e_vars
 {
 	char	**cmd_args;
 	char	*cmd_path;
 	char	**bin_paths;
 	int		is_allocated;
-}				Evars;
+}				t_Evars;
 
-typedef struct	c_vars
+typedef struct c_vars
 {
 	int		start;
 	int		end;
 	int		real_end;
 	char	quote;
 	char	first_quote;
-}				Cvars;
+}				t_Cvars;
 
-typedef struct	p_vars
+typedef struct p_vars
 {
 	int		fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
 	int		status;
-}				Pvars;
+}				t_Pvars;
 
-typedef struct	o_vars
+typedef struct o_vars
 {
 	char	**result;
 	int		len;
 	int		i;
-}				Ovars;
+}				t_Ovars;
 
 typedef struct b_vars
 {
@@ -85,7 +85,7 @@ typedef struct b_vars
 	int		status;
 	pid_t	*status_arr;
 
-}				Bvars;
+}				t_Bvars;
 
 // HELPERS
 void	clean_and_exit(char **content, char ***temp, char ***res, char ***name);
@@ -105,18 +105,18 @@ int		is_quote(char ch);
 
 //PARSING
 char	**get_command_with_options(char *command_name, char **arr);
-char	*get_bin_path(Evars *e_vars, char **env);
-void	get_args(Evars *e_vars, char *command);
-void	get_path(Evars *e_vars, char **env);
+char	*get_bin_path(t_Evars *e_vars, char **env);
+void	get_args(t_Evars *e_vars, char *command);
+void	get_path(t_Evars *e_vars, char **env);
 char	*get_quotes_content(char *command);
 char	*remove_back_slash(char *quote);
 char	**quotes_parse(char *command);
 char	**simple_parse(char *command);
 char	*get_joined_name(char **arr);
-Qvars	init_vars(void);
+t_Qvars	init_vars(void);
 
 // VALIDATION
-char	*check_command_access(Evars *e_vars);
+char	*check_command_access(t_Evars *e_vars);
 
 // BONUS
 pid_t	out_process(char *command, char **env, int file_out);

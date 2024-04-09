@@ -12,9 +12,9 @@
 
 #include "pipex.h"
 
-Qvars	init_vars(void)
+t_Qvars	init_vars(void)
 {
-	Qvars	vars;
+	t_Qvars	vars;
 
 	vars.content = NULL;
 	vars.bslash_temp = NULL;

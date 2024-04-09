@@ -29,7 +29,7 @@ static char	*remove_quotes(char *command)
 	return (ft_strdup(command));
 }
 
-static void	get_result(Qvars *vars)
+static void	get_result(t_Qvars *vars)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ static void	get_result(Qvars *vars)
 	clean_vars(&(vars->content), &(vars->temp), &(vars->cwo), NULL);
 }
 
-static void	function_for_norm(char *content, Qvars *vars)
+static void	function_for_norm(char *content, t_Qvars *vars)
 {
 	if (!content)
 		ft_error("Allocation Error\n", 17);
@@ -64,7 +64,7 @@ static void	function_for_norm(char *content, Qvars *vars)
 
 char	**quotes_parse(char *command)
 {
-	Qvars	vars;
+	t_Qvars	vars;
 
 	vars = init_vars();
 	vars.content = get_quotes_content(command);

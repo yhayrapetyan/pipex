@@ -68,7 +68,7 @@ static int	is_built_in_command(char *command)
 	return (0);
 }
 
-static void	get_path_with_env(Evars *e_vars, char **env)
+static void	get_path_with_env(t_Evars *e_vars, char **env)
 {
 	if (ft_strncmp(e_vars->cmd_args[0], "./", 2) == 0)
 		e_vars->cmd_path = e_vars->cmd_args[0];
@@ -85,7 +85,7 @@ static void	get_path_with_env(Evars *e_vars, char **env)
 	}
 }
 
-void	get_path(Evars *e_vars, char **env)
+void	get_path(t_Evars *e_vars, char **env)
 {
 	if (have_path(env))
 		get_path_with_env(e_vars, env);

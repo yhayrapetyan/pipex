@@ -12,9 +12,9 @@
 
 #include "pipex.h"
 
-static Cvars	init_cvars(char *command)
+static t_Cvars	init_cvars(char *command)
 {
-	Cvars	var;
+	t_Cvars	var;
 
 	var.start = 0;
 	var.end = ft_strlen(command);
@@ -22,7 +22,7 @@ static Cvars	init_cvars(char *command)
 	return (var);
 }
 
-static void	function_for_norm(Cvars *var, char *command)
+static void	function_for_norm(t_Cvars *var, char *command)
 {
 	while (--var->end >= 0 && command[var->end] == var->quote)
 		;
@@ -32,7 +32,7 @@ static void	function_for_norm(Cvars *var, char *command)
 
 char	*get_quotes_content(char *command)
 {
-	Cvars	var;
+	t_Cvars	var;
 
 	var = init_cvars(command);
 	while (var.start <= var.end)

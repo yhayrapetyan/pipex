@@ -12,33 +12,38 @@
 
 #include "pipex.h"
 
-static Bvars	init_bvars(void)
+static t_Bvars	init_bvars(void)
 {
-	Bvars	vars;
+	t_Bvars	vars;
 
 	vars.i = 2;
 	vars.j = 0;
 	return (vars);
 }
 
-static void	start_pipex_bonus(int ac, char **av, char **env)
+static void	function_for_norm(int ac, char **av, t_Bvars *vars)
 {
-	Bvars	vars;
-
-	vars = init_bvars();
 	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
-		vars.out_file = get_descriptor(av[ac - 1], 'H');
+		vars->out_file = get_descriptor(av[ac - 1], 'H');
 		here_doc(av[2], ac);
-		vars.i++;
+		vars->i++;
 	}
 	else
 	{
-		vars.in_file = get_descriptor(av[1], 'I');
-		vars.out_file = get_descriptor(av[ac - 1], 'O');
-		if (dup2(vars.in_file, STDIN_FILENO) == -1)
+		vars->in_file = get_descriptor(av[1], 'I');
+		vars->out_file = get_descriptor(av[ac - 1], 'O');
+		if (dup2(vars->in_file, STDIN_FILENO) == -1)
 			ft_error("Can't duplicate the descriptor\n", 17);
 	}
+}
+
+static void	start_pipex_bonus(int ac, char **av, char **env)
+{
+	t_Bvars	vars;
+
+	vars = init_bvars();
+	function_for_norm(ac, av, &vars);
 	vars.status_arr = (pid_t *)malloc(sizeof(pid_t) * (ac - 3));
 	if (vars.status_arr == NULL)
 		ft_error("Allocation failed\n", 17);

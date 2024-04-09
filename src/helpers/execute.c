@@ -14,7 +14,7 @@
 
 void	execute(char *command, char **env)
 {
-	Evars	e_vars;
+	t_Evars	e_vars;
 
 	e_vars.cmd_args = NULL;
 	e_vars.cmd_path = NULL;

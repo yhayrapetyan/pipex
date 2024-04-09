@@ -14,7 +14,7 @@
 
 char	**simple_parse(char *command)
 {
-	Qvars	vars;
+	t_Qvars	vars;
 
 	vars = init_vars();
 	vars.content = remove_back_slash(command);

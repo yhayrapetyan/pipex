@@ -26,7 +26,7 @@ static char	*rm_bslash(char *command_name)
 	return (command_name);
 }
 
-static void	get_indexes(char **arr, Ovars *o_vars)
+static void	get_indexes(char **arr, t_Ovars *o_vars)
 {
 	int	i;
 	int	len;
@@ -43,7 +43,7 @@ static void	get_indexes(char **arr, Ovars *o_vars)
 
 char	**get_command_with_options(char *command_name, char **arr)
 {
-	Ovars	var;
+	t_Ovars	var;
 
 	get_indexes(arr, &var);
 	var.result = (char **)malloc(sizeof(char *) * (var.len - var.i + 1));

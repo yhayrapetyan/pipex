@@ -12,10 +12,10 @@
 
 #include "pipex.h"
 
-static Quotes	get_quotes_count(char *command)
+static t_Quotes	get_quotes_count(char *command)
 {
-	Quotes	quotes;
-	int		i;
+	t_Quotes	quotes;
+	int			i;
 
 	quotes.single_q = 0;
 	quotes.double_q = 0;
@@ -31,9 +31,9 @@ static Quotes	get_quotes_count(char *command)
 	return (quotes);
 }
 
-void	get_args(Evars *e_vars, char *command)
+void	get_args(t_Evars *e_vars, char *command)
 {
-	Quotes	quotes_count;
+	t_Quotes	quotes_count;
 
 	quotes_count = get_quotes_count(command);
 	if (quotes_count.single_q > 1 || quotes_count.double_q > 1)

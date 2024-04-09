@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-char	*check_command_access(Evars *e_vars)
+char	*check_command_access(t_Evars *e_vars)
 {
 	char	*cmd_path;
 	char	*temp;
