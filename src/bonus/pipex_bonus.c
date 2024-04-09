@@ -30,12 +30,7 @@ static void	function_for_norm(int ac, char **av, t_Bvars *vars)
 		vars->i++;
 	}
 	else
-	{
-		vars->in_file = get_descriptor(av[1], 'I');
 		vars->out_file = get_descriptor(av[ac - 1], 'O');
-		if (dup2(vars->in_file, STDIN_FILENO) == -1)
-			ft_error("Can't duplicate the descriptor\n", 17);
-	}
 }
 
 static void	start_pipex_bonus(int ac, char **av, char **env)
@@ -49,7 +44,7 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 		ft_error("Allocation failed\n", 17);
 	while (vars.i < ac - 2)
 	{
-		vars.status_arr[vars.j] = in_processes(av[vars.i], env);
+		vars.status_arr[vars.j] = in_processes(av, env, vars.i);
 		vars.i++;
 		vars.j++;
 	}
