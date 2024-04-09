@@ -39,6 +39,8 @@ void	here_doc(char *limiter, int argc)
 
 	if (argc < 6)
 		ft_error("Too few arguments for here_dock\n", 17);
+	if (limiter == NULL || *limiter == '\0')
+		ft_error("Invalid Limiter\n", 17);
 	if (pipe(fd) == -1)
 		ft_error("Can't create the pipe\n", 17);
 	pid = fork();
