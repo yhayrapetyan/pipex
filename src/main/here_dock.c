@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-static void	get_input( char *limiter, int *fd)
+static void	get_input(char *limiter, int *fd)
 {
 	char	*line;
 

@@ -1,4 +1,8 @@
-SRC =			pipex.c \
+SRC =			get_descriptor.c \
+                in_processes.c \
+                out_process.c \
+                pipex_bonus.c \
+                here_dock.c
 
 HELPERS_SRC = 	ft_strjoin.c \
 				ft_strstr.c \
@@ -26,13 +30,6 @@ PARSING_SRC =	get_quotes_content.c \
                 remove_back_slash.c \
                 simple_parse.c
 
-
-BONUS_SRC =		get_descriptor.c \
-                in_processes.c \
-                out_process.c \
-                pipex_bonus.c \
-                here_dock.c
-
 GNL_SRC =		get_next_line_utils.c \
 				get_next_line.c
 
@@ -41,11 +38,10 @@ VALIDATION_SRC = 	check_command_access.c
 HEADERS = 	pipex_utils.h \
 			pipex.h
 
-SRC_DIR = ./src/
+SRC_DIR = ./src/main/
 HELPERS_DIR = ./src/helpers/
 VALIDATION_DIR = ./src/validation/
 PARSING_DIR = ./src/parsing/
-BONUS_DIR = ./src/bonus/
 GNL_DIR = ./src/get_next_line/
 INC = ./includes/
 
@@ -54,24 +50,17 @@ SRC := $(addprefix $(SRC_DIR), $(SRC))
 VALIDATION_SRC := $(addprefix $(VALIDATION_DIR), $(VALIDATION_SRC))
 HELPERS_SRC := $(addprefix $(HELPERS_DIR), $(HELPERS_SRC))
 PARSING_SRC := $(addprefix $(PARSING_DIR), $(PARSING_SRC))
-BONUS_SRC := $(addprefix $(BONUS_DIR), $(BONUS_SRC))
 GNL_SRC := $(addprefix $(GNL_DIR), $(GNL_SRC))
 OBJS = $(SRC:.c=.o)
-BONUS_OBJS = $(BONUS_SRC:.c=.o)
 
 SRC += $(VALIDATION_SRC)
 SRC += $(HELPERS_SRC)
 SRC += $(PARSING_SRC)
-
-BONUS_SRC += $(VALIDATION_SRC)
-BONUS_SRC += $(HELPERS_SRC)
-BONUS_SRC += $(PARSING_SRC)
-BONUS_SRC += $(GNL_SRC)
+SRC += $(GNL_SRC)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
-BONUS_NAME = pipex_bonus
 RM = rm -f
 
 BLUE   = \033[0;34m
@@ -88,21 +77,11 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: print_info $(NAME)
 
-bonus: delete_old_pipex print_info  $(BONUS_NAME)
-
-delete_old_pipex:
-	@$(RM) $(NAME)
-
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME)
 	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
 
-$(BONUS_NAME): $(BONUS_OBJS)
-	@$(CC) $(BONUS_OBJS) -o $(NAME)
-	@printf "%b" "$(BLUE)\n$@ $(GREEN)[✓]\n"
-
 $(OBJS): $(HEADERS) Makefile
-$(BONUS_OBJS): $(HEADERS) Makefile
 
 sanitize: $(OBJS)
 	@cc $(OBJS) -fsanitize=address  -o $(NAME)
@@ -126,9 +105,7 @@ re: fclean all
 print_info: print_name
 	@printf "%b" "$(BLUE)Compiler: $(GREEN)$(CC)\n"
 	@printf "%b" "$(BLUE)Name: $(GREEN)$(NAME)\n"
-	@printf "%b" "$(BLUE)Uname: $(GREEN)$(UNAME)\n"
 	@printf "%b" "$(BLUE)C Flags: $(GREEN)$(CFLAGS)\n"
-	@printf "%b" "$(BLUE)Lib Flags: $(GREEN)$(LIB_FLAGS)\n"
 	@printf "%b" "$(BLUE)Src Count: $(GREEN)$(SRC_COUNT_TOT)$(NO_COLOR)\n"
 
 
@@ -143,4 +120,4 @@ print_name:
 	@echo "        \/_/     \/_____/ \/_/      \/___ /  \/_/ \/_/ "
 	@echo "\n"
 
-.PHONY: all clean fclean re sanitize bonus print_name print_info
+.PHONY: all clean fclean re sanitize print_name print_info
