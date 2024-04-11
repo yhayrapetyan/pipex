@@ -38,7 +38,8 @@ GNL_SRC =		get_next_line_utils.c \
 
 VALIDATION_SRC = 	check_command_access.c
 
-HEADERS = 	pipex.h
+HEADERS = 	pipex_utils.h \
+			pipex.h
 
 SRC_DIR = ./src/
 HELPERS_DIR = ./src/helpers/

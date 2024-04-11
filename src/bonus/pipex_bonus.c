@@ -21,16 +21,21 @@ static t_Bvars	init_bvars(void)
 	return (vars);
 }
 
-static void	function_for_norm(int ac, char **av, t_Bvars *vars)
+static void	wait_for_childes(t_Bvars *vars)
 {
-	if (ft_strncmp(av[1], "here_doc", 8) == 0)
+	vars->i = 0;
+	while (vars->i <= vars->j)
 	{
-		vars->out_file = get_descriptor(av[ac - 1], 'H');
-		here_doc(av[2], ac);
+		if (waitpid(vars->status_arr[vars->i], &vars->status, 0) == -1)
+		{
+			free(vars->status_arr);
+			ft_error("Waitpid Error!\n", 17);
+		}
 		vars->i++;
 	}
-	else
-		vars->out_file = get_descriptor(av[ac - 1], 'O');
+	free(vars->status_arr);
+	if (vars->status != 0)
+		exit((vars->status >> 8) & 0xFF);
 }
 
 static void	start_pipex_bonus(int ac, char **av, char **env)
@@ -38,7 +43,14 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 	t_Bvars	vars;
 
 	vars = init_bvars();
-	function_for_norm(ac, av, &vars);
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
+	{
+		vars.out_file = get_descriptor(av[ac - 1], 'H');
+		here_doc(av[2], ac);
+		vars.i++;
+	}
+	else
+		vars.out_file = get_descriptor(av[ac - 1], 'O');
 	vars.status_arr = (pid_t *)malloc(sizeof(pid_t) * (ac - 3));
 	if (vars.status_arr == NULL)
 		ft_error("Allocation failed\n", 17);
@@ -49,17 +61,7 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 		vars.j++;
 	}
 	vars.status_arr[vars.j] = out_process(av[vars.i], env, vars.out_file);
-	vars.i = 0;
-	while (vars.i < vars.j)
-	{
-		if (waitpid(vars.status_arr[vars.i], NULL, 0) == -1)
-			ft_error("Waitpid Error!\n", 17);
-		vars.i++;
-	}
-	if (waitpid(vars.status_arr[vars.i], &vars.status, 0) == -1)
-		ft_error("Waitpid Error!\n", 17);
-	if (vars.status != 0)
-		exit((vars.status >> 8) & 0xFF);
+	wait_for_childes(&vars);
 }
 
 int	main(int ac, char **av, char **env)

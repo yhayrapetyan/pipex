@@ -74,14 +74,14 @@ static void	get_path_with_env(t_Evars *e_vars, char **env)
 		e_vars->cmd_path = e_vars->cmd_args[0];
 	else
 	{
-		e_vars->is_allocated++;
+		e_vars->is_path_allocated++;
 		e_vars->cmd_path = get_bin_path(e_vars, env);
 	}
 	if (e_vars->cmd_path == NULL && is_relative_path(e_vars->cmd_args[0]) && \
 		access(e_vars->cmd_args[0], F_OK) == 0)
 	{
-		e_vars->is_allocated--;
-		e_vars->cmd_path = e_vars->cmd_args[e_vars->is_allocated];
+		e_vars->is_path_allocated--;
+		e_vars->cmd_path = e_vars->cmd_args[e_vars->is_path_allocated];
 	}
 }
 
