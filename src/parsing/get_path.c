@@ -97,7 +97,7 @@ void	get_path(t_Evars *e_vars, char **env)
 		else
 		{
 			if (is_built_in_command(e_vars->cmd_args[0]))
-				ft_error("Command not found!\n", 0);
+				e_vars->cmd_path = "/bin/sh";
 			if (access(e_vars->cmd_args[0], F_OK) == 0)
 				e_vars->cmd_path = e_vars->cmd_args[0];
 		}
