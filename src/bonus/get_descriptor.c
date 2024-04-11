@@ -22,12 +22,12 @@ int	get_descriptor(char *file_name, char c)
 	else if (c == 'O')
 	{
 		if (access(file_name, F_OK) == 0 && access(file_name, W_OK) != 0)
-			ft_error("No write permission\n", 1);
+			ft_error(WRT_PERM_ERR, WRT_PERM_STAT);
 		descriptor = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	else if (c == 'I')
 		descriptor = open(file_name, O_RDONLY);
 	if (descriptor == -1)
-		ft_error("Can't open the file\n", 17);
+		ft_error(FILE_OPEN_ERR, FILE_OPEN_STAT);
 	return (descriptor);
 }

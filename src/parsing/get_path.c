@@ -105,6 +105,6 @@ void	get_path(t_Evars *e_vars, char **env)
 	if (!e_vars->cmd_path)
 	{
 		free_split(e_vars->cmd_args);
-		ft_error("Command not found!!!\n", 127);
+		ft_error(CMD_NOT_FOUND_ERR, CMD_NOT_FOUND_STAT);
 	}
 }

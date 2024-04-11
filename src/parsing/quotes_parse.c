@@ -58,7 +58,7 @@ static void	get_result(t_Qvars *vars)
 static void	function_for_norm(char *content, t_Qvars *vars)
 {
 	if (!content)
-		ft_error("Allocation Error\n", 17);
+		ft_error(MALLOC_ERR, MALLOC_STAT);
 	vars->bslash_temp = vars->content;
 }
 
@@ -72,7 +72,7 @@ char	**quotes_parse(char *command)
 	vars.content = remove_back_slash(vars.content);
 	free(vars.bslash_temp);
 	if (!vars.content)
-		ft_error("Allocation Error\n", 17);
+		ft_error(MALLOC_ERR, MALLOC_STAT);
 	vars.command_name = remove_quotes(command);
 	if (!vars.command_name)
 		clean_and_exit(&vars.content, NULL, NULL, NULL);

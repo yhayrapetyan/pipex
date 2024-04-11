@@ -22,5 +22,5 @@ void	clean_and_exit(char **content, char ***temp, char ***res, char ***name)
 		free_split(*res);
 	if (name != NULL)
 		free_split(*name);
-	ft_error("Allocation Error\n", 17);
+	ft_error(MALLOC_ERR, MALLOC_STAT);
 }

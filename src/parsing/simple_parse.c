@@ -19,7 +19,7 @@ char	**simple_parse(char *command)
 	vars = init_vars();
 	vars.content = remove_back_slash(command);
 	if (!vars.content)
-		ft_error("Allocation Error\n", 17);
+		ft_error(MALLOC_ERR, MALLOC_STAT);
 	vars.temp = ft_split(vars.content, ' ');
 	if (!vars.temp)
 		clean_and_exit(&vars.content, NULL, NULL, NULL);

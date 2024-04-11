@@ -29,7 +29,7 @@ static void	wait_for_childes(t_Bvars *vars)
 		if (waitpid(vars->status_arr[vars->i], &vars->status, 0) == -1)
 		{
 			free(vars->status_arr);
-			ft_error("Waitpid Error!\n", 17);
+			ft_error(WAIT_ERR, WAIT_STAT);
 		}
 		vars->i++;
 	}
@@ -53,7 +53,7 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 		vars.out_file = get_descriptor(av[ac - 1], 'O');
 	vars.status_arr = (pid_t *)malloc(sizeof(pid_t) * (ac - 3));
 	if (vars.status_arr == NULL)
-		ft_error("Allocation failed\n", 17);
+		ft_error(MALLOC_ERR, MALLOC_STAT);
 	while (vars.i < ac - 2)
 	{
 		vars.status_arr[vars.j] = in_processes(av, env, vars.i);
@@ -69,6 +69,6 @@ int	main(int ac, char **av, char **env)
 	if (ac >= 5 && env)
 		start_pipex_bonus(ac, av, env);
 	else
-		ft_error("Invalid number of arguments\n", 127);
+		ft_error(ARG_ERR, ARG_STAT);
 	return (0);
 }

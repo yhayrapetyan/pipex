@@ -64,7 +64,7 @@ void	execute(char *command, char **env)
 			free_split(e_vars.cmd_args);
 			if (e_vars.is_path_allocated == 1)
 				free(e_vars.cmd_path);
-			ft_error("Allocation Failed\n", 17);
+			ft_error(MALLOC_ERR, MALLOC_STAT);
 		}
 	}
 	if (execve(e_vars.cmd_path, e_vars.cmd_args, env) == -1)
@@ -72,6 +72,6 @@ void	execute(char *command, char **env)
 		free_split(e_vars.cmd_args);
 		if (e_vars.is_path_allocated == 1)
 			free(e_vars.cmd_path);
-		ft_error("Can't execute the command!\n", 126);
+		ft_error(EXEC_ERR, EXEC_STAT);
 	}
 }

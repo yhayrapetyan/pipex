@@ -17,7 +17,7 @@ static void	get_input( char *limiter, int *fd)
 	char	*line;
 
 	if (close(fd[0]) == -1)
-		ft_error("Can't close the pipe\n", 17);
+		ft_error(PIPE_CLOSE_ERR, PIPE_CLOSE_STAT);
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
@@ -38,23 +38,23 @@ void	here_doc(char *limiter, int argc)
 	int		fd[2];
 
 	if (argc < 6)
-		ft_error("Too few arguments for here_dock\n", 17);
+		ft_error("Too few arguments for here_dock\n", 13);
 	if (limiter == NULL || *limiter == '\0')
-		ft_error("Invalid Limiter\n", 17);
+		ft_error("Invalid Limiter\n", 14);
 	if (pipe(fd) == -1)
-		ft_error("Can't create the pipe\n", 17);
+		ft_error(PIPE_CREATE_ERR, PIPE_CREATE_STAT);
 	pid = fork();
 	if (pid == -1)
-		ft_error("Can't create the child process\n", 17);
+		ft_error(FORK_CREATE_ERR, PIPE_CREATE_STAT);
 	if (pid == 0)
 		get_input(limiter, fd);
 	else
 	{
 		if (close(fd[1]) == -1)
-			ft_error("Can't close the pipe\n", 17);
+			ft_error(PIPE_CLOSE_ERR, PIPE_CLOSE_STAT);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
-			ft_error("Can't duplicate the descriptor\n", 17);
+			ft_error(DUP_ERR, DUP_STAT);
 		if (waitpid(pid, NULL, 0) == -1)
-			ft_error("Waitpid Error!\n", 17);
+			ft_error(WAIT_ERR, WAIT_STAT);
 	}
 }
