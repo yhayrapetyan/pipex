@@ -22,7 +22,7 @@ static void	close_parent(int *fd)
 		ft_error(PIPE_CLOSE_ERR, PIPE_CLOSE_STAT);
 }
 
-pid_t	in_processes(char **av, char **env, int i)
+pid_t	in_processes(char **av, char **env, int i, pid_t **arr)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -34,6 +34,7 @@ pid_t	in_processes(char **av, char **env, int i)
 		ft_error(FORK_CREATE_ERR, FORK_CREATE_STAT);
 	if (pid == 0)
 	{
+		free(*arr);
 		if (i == 2)
 			if (dup2(get_descriptor(av[i - 1], 'I'), STDIN_FILENO) == -1)
 				ft_error(DUP_ERR, DUP_STAT);

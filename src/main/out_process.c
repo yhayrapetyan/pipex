@@ -22,7 +22,7 @@ static void	close_parent(int *fd)
 		ft_error(PIPE_CLOSE_ERR, PIPE_CLOSE_STAT);
 }
 
-pid_t	out_process(char *command, char **env, int file_out)
+pid_t	out_process(char *command, char **env, int file_out, pid_t **arr)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -34,6 +34,7 @@ pid_t	out_process(char *command, char **env, int file_out)
 		ft_error(FORK_CREATE_ERR, FORK_CREATE_STAT);
 	if (pid == 0)
 	{
+		free(*arr);
 		if (close(fd[1]) == -1)
 			ft_error(PIPE_CLOSE_ERR, PIPE_CLOSE_STAT);
 		if (dup2(file_out, STDOUT_FILENO) == -1)

@@ -47,8 +47,8 @@ t_Qvars	init_vars(void);
 char	*check_command_access(t_Evars *e_vars);
 
 // BONUS
-pid_t	out_process(char *command, char **env, int file_out);
-pid_t	in_processes(char **av, char **env, int i);
+pid_t	out_process(char *command, char **env, int file_out, pid_t **arr);
+pid_t	in_processes(char **av, char **env, int i, pid_t **arr);
 int		get_descriptor(char *file_name, char c);
 void	here_doc(char *limiter, int argc);
 
