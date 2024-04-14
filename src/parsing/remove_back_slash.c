@@ -37,9 +37,9 @@ char	*remove_back_slash(char *quote)
 	char	*res;
 
 	count = get_bslash_count(quote);
-	res = (char *)malloc(sizeof(char *) * (count + 1));
+	res = (char *)malloc(sizeof(char) * (count + 1));
 	if (!res)
-		NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (quote[i])
@@ -51,6 +51,6 @@ char	*remove_back_slash(char *quote)
 		}
 		i++;
 	}
-	res[i] = '\0';
+	res[j] = '\0';
 	return (res);
 }
