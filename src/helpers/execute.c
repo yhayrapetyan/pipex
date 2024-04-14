@@ -23,6 +23,19 @@ static t_Evars	init_evars(void)
 	return (e_vars);
 }
 
+static char	**clean_malloc(char **result, int len)
+{
+	int	i;
+
+	i = 2;
+	while (i < len)
+	{
+		free(result[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 static char **get_built_in_args(char **cmd_args)
 {
 	int		i;
@@ -39,7 +52,9 @@ static char **get_built_in_args(char **cmd_args)
 	result[i + 2] = NULL;
 	while (i > 0)
 	{
-		result[i + 1] = cmd_args[i - 1];
+		result[i + 1] = ft_strdup(cmd_args[i - 1]);
+		if (!result[i + 1])
+			return (clean_malloc(result, i + 1));
 		i--;
 	}
 	return (result);

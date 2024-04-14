@@ -87,7 +87,7 @@ static void	get_path_with_env(t_Evars *e_vars, char **env)
 
 void	get_path(t_Evars *e_vars, char **env)
 {
-	if (have_path(env))
+	if (have_path(env) == 1)
 		get_path_with_env(e_vars, env);
 	else
 	{
