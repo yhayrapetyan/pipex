@@ -35,6 +35,8 @@ void	get_args(t_Evars *e_vars, char *command)
 {
 	t_Quotes	quotes_count;
 
+	if (ft_strlen(command) == 0)
+		ft_error("Permission denied\n", 126);
 	quotes_count = get_quotes_count(command);
 	if (quotes_count.single_q > 1 || quotes_count.double_q > 1)
 		e_vars->cmd_args = quotes_parse(command);

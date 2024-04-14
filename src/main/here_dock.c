@@ -24,6 +24,7 @@ static void	get_input(char *limiter, int *fd)
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		{
 			free(line);
+			get_next_line(-1);
 			exit(EXIT_SUCCESS);
 		}
 		write(fd[1], line, ft_strlen(line));
