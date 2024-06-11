@@ -21,7 +21,7 @@ static void	get_input(char *limiter, int *fd)
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			get_next_line(-1);

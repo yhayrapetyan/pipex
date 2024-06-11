@@ -16,8 +16,10 @@ HELPERS_SRC = 	ft_strjoin.c \
 				execute.c \
 				is_quote.c \
 				clean_and_exit.c \
+				get_built_in_args.c \
 				clean_vars.c \
-				ft_split.c
+				ft_split.c\
+				ft_strcmp.c
 
 PARSING_SRC =	get_quotes_content.c \
 				get_joined_name.c \

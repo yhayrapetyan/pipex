@@ -56,11 +56,13 @@ static void	start_pipex_bonus(int ac, char **av, char **env)
 		ft_error(MALLOC_ERR, MALLOC_STAT);
 	while (vars.i < ac - 2)
 	{
-		vars.status_arr[vars.j] = in_processes(av, env, vars.i, &vars.status_arr);
+		vars.status_arr[vars.j] = in_processes(av, env, vars.i, \
+			&vars.status_arr);
 		vars.i++;
 		vars.j++;
 	}
-	vars.status_arr[vars.j] = out_process(av[vars.i], env, vars.out_file, &vars.status_arr);
+	vars.status_arr[vars.j] = out_process(av[vars.i], env, vars.out_file, \
+		&vars.status_arr);
 	wait_for_childes(&vars);
 }
 

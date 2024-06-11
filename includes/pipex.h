@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuhayrap <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yuhayrap <yuhayrap@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:07:30 by yuhayrap          #+#    #+#             */
-/*   Updated: 2024/03/20 18:07:31 by yuhayrap         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:56:57 by yuhayrap         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	clean_and_exit(char **content, char ***temp, char ***res, char ***name);
 void	clean_vars(char **content, char ***temp, char ***result, char ***name);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 char	*ft_strstr(char *str, char *to_find);
+char	**get_built_in_args(char **cmd_args);
 void	ft_error(char *message, int status);
 char	*ft_strndup(const char *str, int n);
 void	execute(char *command, char **env);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(const char *s1);
 int		ft_strchr(char *s, int c);
 void	free_split(char **str);

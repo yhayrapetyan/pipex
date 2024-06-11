@@ -23,43 +23,12 @@ static t_Evars	init_evars(void)
 	return (e_vars);
 }
 
-static char	**clean_malloc(char **result, int len)
+static void	clean_evars(t_Evars *e_vars)
 {
-	int	i;
-
-	i = 2;
-	while (i < len)
-	{
-		free(result[i]);
-		i++;
-	}
-	return (NULL);
+	free_split(e_vars->cmd_args);
+	if (e_vars->is_path_allocated == 1)
+		free(e_vars->cmd_path);
 }
-
-static char **get_built_in_args(char **cmd_args)
-{
-	int		i;
-	char	**result;
-
-	i = 0;
-	while (cmd_args[i])
-		i++;
-	result = (char **)malloc(sizeof(char *) * (i + 3));
-	if (!result)
-		return (NULL);
-	result[0] = "/bin/sh";
-	result[1] = "-c";
-	result[i + 2] = NULL;
-	while (i > 0)
-	{
-		result[i + 1] = ft_strdup(cmd_args[i - 1]);
-		if (!result[i + 1])
-			return (clean_malloc(result, i + 1));
-		i--;
-	}
-	return (result);
-}
-
 
 void	execute(char *command, char **env)
 {
@@ -76,17 +45,13 @@ void	execute(char *command, char **env)
 		free_split(temp);
 		if (!e_vars.cmd_args)
 		{
-			free_split(e_vars.cmd_args);
-			if (e_vars.is_path_allocated == 1)
-				free(e_vars.cmd_path);
+			clean_evars(&e_vars);
 			ft_error(MALLOC_ERR, MALLOC_STAT);
 		}
 	}
 	if (execve(e_vars.cmd_path, e_vars.cmd_args, env) == -1)
 	{
-		free_split(e_vars.cmd_args);
-		if (e_vars.is_path_allocated == 1)
-			free(e_vars.cmd_path);
+		clean_evars(&e_vars);
 		ft_error(EXEC_ERR, EXEC_STAT);
 	}
 }

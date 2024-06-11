@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yuhayrap <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 11:15:29 by yuhayrap          #+#    #+#             */
+/*   Updated: 2024/04/15 11:15:31 by yuhayrap         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_UTILS_H
 # define PIPEX_UTILS_H
 
@@ -39,7 +51,6 @@
 # define DUP_STAT			10
 # define EXEC_STAT			126
 # define CMD_NOT_FOUND_STAT	127
-
 
 typedef struct quotes_s
 {
